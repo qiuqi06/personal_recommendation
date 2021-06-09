@@ -34,10 +34,16 @@ def lfm_train(train_data,F,alpha,beta,step):
             if item_id not in item_vec:
                 item_vec[item_id] = init_model(F)
         #模型迭代代码的书写
-        delta = label  - model_predict(user_vec[user_id],item_vec[item_id])
-        for index in range(F):# 在这里和公式不一样，是实际工程的应用，没有2倍
-            user_vec[user_id][index] += beta*(delta*item_vec[item_id][index] - alpha*user_vec[user_id][index])
-            item_vec[item_id][index] += beta*(delta*user_vec[user_id][index] - alpha*item_vec[item_id][index])
+            delta = label  - model_predict(user_vec[user_id],item_vec[item_id])
+            for index in range(F):# 在这里和公式不一样，是实际工程的应用，没有2倍
+                user_vec[user_id][index] += beta*(delta*item_vec[item_id][index] - alpha*user_vec[user_id][index])
+                item_vec[item_id][index] += beta*(delta*user_vec[user_id][index] - alpha*item_vec[item_id][index])
+        beta = beta*0.9
+       #老的,可能有误
+       #delta = label  - model_predict(user_vec[user_id],item_vec[item_id])
+       #for index in range(F):# 在这里和公式不一样，是实际工程的应用，没有2倍
+        #    user_vec[user_id][index] += beta*(delta*item_vec[item_id][index] - alpha*user_vec[user_id][index])
+        #    item_vec[item_id][index] += beta*(delta*user_vec[user_id][index] - alpha*item_vec[item_id][index])
         beta = beta*0.9
     return user_vec,item_vec
 
